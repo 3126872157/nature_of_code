@@ -15,12 +15,16 @@ RandomWalker::RandomWalker(const sf::RenderWindow &window) {
     distribution = std::uniform_int_distribution<int>(-10, 10);
 }
 
-void RandomWalker::step() {
+void RandomWalker::update(double dt) {
     int x_step = distribution(generator);
     int y_step = distribution(generator);
 
     pos_ += sf::Vector2f(x_step, y_step);
     entity_.setPosition(pos_);
+}
+
+void RandomWalker::render(sf::RenderWindow &window) {
+    window.draw(entity_);
 }
 
 sf::Vector2f RandomWalker::getPos() const {

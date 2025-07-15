@@ -13,6 +13,9 @@
 #include "SFML/Graphics/RenderWindow.hpp"
 #include "SFML/System/Vector2.hpp"
 
+//project
+#include "perlin.h"
+
 class RandomWalker {
 public:
     explicit RandomWalker(const sf::RenderWindow &window);
@@ -28,6 +31,7 @@ private:
     sf::RectangleShape entity_;
 
 private:
+    Perlin* perlin_;
     std::mt19937 generator;
     std::uniform_int_distribution<int> distribution;
 };

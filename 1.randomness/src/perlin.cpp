@@ -16,8 +16,6 @@ double Perlin::noise1D(const double x) {
         return perm[static_cast<size_t>(x) % perm.size()] * 1 - 122.5;
     };
 
-    std::cout << grad(x1) << " " << grad(x2) << std::endl;
-
     double vec1 = x - x1;
     double vec2 = x - x2;
 

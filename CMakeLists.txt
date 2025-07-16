@@ -6,4 +6,4 @@ project(nature_of_code LANGUAGES CXX)
 include(${CMAKE_SOURCE_DIR}/cmake/common.cmake)
 
 #添加子文件夹的章节
-add_subdirectory(randomness)
+add_subdirectory(1.randomness)

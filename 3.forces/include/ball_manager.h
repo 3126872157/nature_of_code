@@ -13,20 +13,19 @@
 #include "ball.h"
 
 #define GRAVITY 100.0f
+#define VELOCITY_WINDPOW_K 0.5f
 
 class BallManager {
 public:
     explicit BallManager(size_t n);
     ~BallManager();
 
-    void setRandomPosition(int width, int height);
+    void setRandom(int width, int height);
     void update(float dt);
     void render(sf::RenderWindow &window);
 
 private:
-
-
-private:
+    std::random_device rd_;
     std::uniform_int_distribution<int> distribution_;
     std::mt19937 gen_;
 

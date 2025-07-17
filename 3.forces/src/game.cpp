@@ -9,7 +9,7 @@ Game::Game(const std::string &title, unsigned int width, unsigned int height) {
     window_ = sf::RenderWindow(sf::VideoMode({width, height}), title);
     window_.setFramerateLimit(60);
     ballManager_ = new BallManager(5);
-    ballManager_->setRandomPosition(width, height);
+    ballManager_->setRandom(width, height);
 }
 
 void Game::run() {

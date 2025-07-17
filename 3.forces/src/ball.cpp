@@ -33,6 +33,10 @@ void Ball::setPosition(const sf::Vector2f &position){
     pos_ = position;
 }
 
+void Ball::setVelocity(const sf::Vector2f &velocity) {
+    vel_ = velocity;
+}
+
 void Ball::addAccel(const sf::Vector2f &accel){
     accel_ += accel;
 }

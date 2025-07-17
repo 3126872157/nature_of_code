@@ -6,15 +6,16 @@
 
 BallManager::BallManager(size_t n){
     distribution_ = std::uniform_int_distribution<int>(-20, 20);
+    gen_ = std::mt19937(rd_());
     for(size_t i = 0; i < n; i++)
     {
         float r = 30.0 + distribution_(gen_);
-        //NOTE：不要用下标访问，还没分配空间，会段错
+        //不要用下标访问，还没分配空间，会段错
         ball_list_.emplace_back(new Ball(r, color_list_[i % color_list_.size()]));
     }
 }
 
-void BallManager::setRandomPosition(const int width, const int height)
+void BallManager::setRandom(const int width, const int height)
 {
     for(auto & i : ball_list_)
     {
@@ -23,6 +24,12 @@ void BallManager::setRandomPosition(const int width, const int height)
         distribution_ = std::uniform_int_distribution<int>(- height/4, height/4);
         float h = distribution_(gen_);
         i->setPosition({width/2 + w, height/2 + h});
+
+        distribution_ = std::uniform_int_distribution<int>(- height * VELOCITY_WINDPOW_K, height * VELOCITY_WINDPOW_K);
+        float v_x = distribution_(gen_);
+        distribution_ = std::uniform_int_distribution<int>(- height * VELOCITY_WINDPOW_K, height * VELOCITY_WINDPOW_K);
+        float v_y = distribution_(gen_);
+        i->setVelocity({v_x, v_y});
     }
 }
 

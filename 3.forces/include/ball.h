@@ -21,6 +21,8 @@ public:
 
     void setCalMass(std::function<float(float)> calMass);
     void setPosition(const sf::Vector2f &position);
+    void setVelocity(const sf::Vector2f &velocity);
+
     void addAccel(const sf::Vector2f &accel);
     void emptyAccel();
 

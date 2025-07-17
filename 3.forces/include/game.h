@@ -10,7 +10,7 @@
 #include "SFML/Graphics.hpp"
 
 //project
-#include "../include/ball.h"
+#include "ball_manager.h"
 
 class Game {
 public:
@@ -25,7 +25,7 @@ private:
 
 private:
     sf::RenderWindow window_;
-    Ball* ball_;
+    BallManager* ballManager_;
 };
 
 

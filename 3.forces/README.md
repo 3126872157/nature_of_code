@@ -4,4 +4,5 @@
 + 代码里面一般不考虑牛三
 
 #### TODO
-+ [ ] 重力与球，BallManager
++ [x] 重力与球，BallManager
++ [ ] 析构函数

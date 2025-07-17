@@ -4,7 +4,7 @@
 
 #include "../include/ball.h"
 
-Ball::Ball(double radius, sf::Color color){
+Ball::Ball(float radius, sf::Color color){
     radius_ = radius;
     mass_ = radius * radius;
 
@@ -24,7 +24,7 @@ void Ball::render(sf::RenderWindow &window){
     window.draw(entity_);
 }
 
-void Ball::setCalMass(std::function<double(double)> calMass){
+void Ball::setCalMass(std::function<float(float)> calMass){
     calMass_ = calMass;
     mass_ = calMass(radius_);
 }
@@ -33,10 +33,20 @@ void Ball::setPosition(const sf::Vector2f &position){
     pos_ = position;
 }
 
-void Ball::setAccel(const sf::Vector2f &accel){
-    accel_ = accel;
+void Ball::addAccel(const sf::Vector2f &accel){
+    accel_ += accel;
+}
+
+void Ball::emptyAccel()
+{
+    accel_ = sf::Vector2f(0.f, 0.f);
 }
 
 sf::Vector2f Ball::getPosition() const{
     return pos_;
+}
+
+float Ball::getMass() const
+{
+    return mass_;
 }

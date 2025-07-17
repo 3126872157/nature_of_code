@@ -13,17 +13,19 @@
 
 class Ball {
 public:
-    explicit Ball(const double radius, sf::Color color);
+    explicit Ball(const float radius, sf::Color color);
     ~Ball() = default;
 
     void update(float dt);
     void render(sf::RenderWindow &window);
 
-    void setCalMass(std::function<double(double)> calMass);
+    void setCalMass(std::function<float(float)> calMass);
     void setPosition(const sf::Vector2f &position);
-    void setAccel(const sf::Vector2f &accel);
+    void addAccel(const sf::Vector2f &accel);
+    void emptyAccel();
 
     sf::Vector2f getPosition() const;
+    float getMass() const;
 
 private:
     sf::Vector2f pos_;
@@ -31,10 +33,10 @@ private:
     sf::Vector2f accel_;
     sf::Vector2f force_;
 
-    double radius_;
-    double mass_;
+    float radius_;
+    float mass_;
     //如何算质量：如 密度x半径 或 密度x半径平方
-    std::function<double(double)> calMass_;
+    std::function<float(float)> calMass_;
 
 private:
     sf::Color color_;

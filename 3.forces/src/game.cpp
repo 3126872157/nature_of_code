@@ -8,8 +8,8 @@ Game::Game(const std::string &title, unsigned int width, unsigned int height) {
     //初始窗口
     window_ = sf::RenderWindow(sf::VideoMode({width, height}), title);
     window_.setFramerateLimit(60);
-    ball_ = new Ball(20.0, sf::Color::White);
-    ball_->setPosition(sf::Vector2f(width / 2, height / 2));
+    ballManager_ = new BallManager(5);
+    ballManager_->setRandomPosition(width, height);
 }
 
 void Game::run() {
@@ -33,15 +33,14 @@ void Game::processEvents() {
 }
 
 void Game::update(float dt) {
-    ball_->setAccel(sf::Vector2f(100.0f, 0.f));
-    ball_->update(dt);
+    ballManager_->update(dt);
 }
 
 void Game::render() {
     window_.clear();
 
     //渲染
-    ball_->render(window_);
+    ballManager_->render(window_);
 
     window_.display();
 }

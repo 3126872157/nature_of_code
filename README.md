@@ -1,6 +1,11 @@
-### Readme
-这是一个使用 sfml 实现 Daniel Shiffman 的 Nature of Code 这本书的项目 </br>
-使用 CMake 构建，顶层有一个共用 cmake
+### 自述
+这是一个使用 sfml 实现 Daniel Shiffman 的 [Nature of Code](https://natureofcode.com/) 这本书的项目 </br>
+使用 CMake 构建，顶层有一个共用 cmake </br>
+实现不同章节的 cmake 管理 </br>
+每个章节的实现不与书上完全一样，大多以书为启迪，自己实现的
+
+#### 概览
+
 
 #### SFML 的 linux 环境
 

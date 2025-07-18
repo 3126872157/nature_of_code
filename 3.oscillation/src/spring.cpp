@@ -36,7 +36,7 @@ void Spring::render(sf::RenderWindow &window) {
 
 sf::Vector2f Spring::getForceEnd() const {
     sf::Vector2f dir = anchor_ - end_;
-    float delta = dir.length() - origin_len_ > 0 ? dir.length() - origin_len_ : 0;
+    float delta = dir.length() - origin_len_;
     return k_ * delta * dir.normalized();
 }
 

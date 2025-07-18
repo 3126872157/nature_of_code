@@ -16,9 +16,8 @@ Ball::Ball(float radius, sf::Color color){
 }
 
 void Ball::update(float dt){
-    //fixme：哪个先更新，v 还是 s
-    pos_ += vel_ * dt + 0.5f * accel_ * dt * dt;
     vel_ += accel_ * dt;
+    pos_ += vel_ * dt;
     entity_.setPosition(pos_);
     emptyAccel();
 }

@@ -29,7 +29,9 @@ private:
 private:
     sf::RenderWindow window_;
     Ball* bob_;
+    Ball* sub_bob_;
     Spring* spring_;
+    Spring* sub_spring_;
 };
 
 

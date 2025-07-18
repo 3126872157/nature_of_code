@@ -14,7 +14,7 @@ Ball::Ball(float radius, sf::Color color){
 }
 
 void Ball::update(float dt){
-    //fixme：哪个先更新，v 还是 s
+    //NOTE：错误示范，这样做会增加整个系统的能量，正确示范在第三章那里
     pos_ += vel_ * dt + 0.5f * accel_ * dt * dt;
     vel_ += accel_ * dt;
     entity_.setPosition(pos_);

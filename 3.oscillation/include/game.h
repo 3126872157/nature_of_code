@@ -10,7 +10,10 @@
 #include "SFML/Graphics.hpp"
 
 //project
-#include "ball_manager.h"
+#include "ball.h"
+#include "spring.h"
+
+#define GRAVITY 1000000.0f
 
 class Game {
 public:
@@ -25,6 +28,8 @@ private:
 
 private:
     sf::RenderWindow window_;
+    Ball* bob_;
+    Spring* spring_;
 };
 
 

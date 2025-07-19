@@ -4,6 +4,8 @@
 
 #include "../include/rod.h"
 
+#include <iostream>
+
 #include "../include/game.h"
 
 Rod::Rod(const float length, const float thick = 2.0f){
@@ -14,6 +16,10 @@ Rod::Rod(const float length, const float thick = 2.0f){
 void Rod::connect(Ball* bob)
 {
     bob_ = bob;
+    end_ = bob_->getPosition();
+    sf::Vector2f dir = start_ - end_;
+    float theta = atan2(-dir.x, -dir.y);
+    angle_ = theta;
 }
 
 void Rod::update(const float dt)
@@ -21,8 +27,14 @@ void Rod::update(const float dt)
     if (bob_ != nullptr)
     {
         end_ = bob_->getPosition();
-        auto force = getForceEnd();
-        bob_->addAccel(force / bob_->getMass());
+        sf::Vector2f dir = start_ - end_;
+        std::cout << dir.length() << std::endl;
+        float theta = atan2(-dir.x, -dir.y);
+        angle_acc_ = -1 * GRAVITY * sin(theta) / length_;
+        angle_vel_ += angle_acc_ * dt;
+        angle_ += angle_vel_ * dt;
+        bob_->setPosition({static_cast<float>(start_.x + length_ * sin(angle_)),
+                              static_cast<float>(start_.y + length_ * cos(angle_))});
     }
 }
 
@@ -37,6 +49,7 @@ void Rod::render(sf::RenderWindow& window)
     entity_.setPosition({start_.x, start_.y - thick_ / 2});
     entity_.setRotation(angle);
     window.draw(entity_);
+    bob_->render(window);
 }
 
 

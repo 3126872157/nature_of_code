@@ -14,7 +14,7 @@
 #include "rod.h"
 #include "spring.h"
 
-#define GRAVITY 1000000.0f
+#define GRAVITY 10000.0f
 
 class Game {
 public:
@@ -34,8 +34,10 @@ private:
     Spring* spring_;
     Spring* sub_spring_;
 
-    Ball* rod_ball_;
+    Ball* ball_;
     Rod* rod_;
+    Rod* sub_rod_;
+    Ball* sub_ball_;
 };
 
 

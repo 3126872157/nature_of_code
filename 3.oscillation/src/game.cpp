@@ -21,11 +21,16 @@ Game::Game(const std::string &title, unsigned int width, unsigned int height) {
     bob_->setPosition({1000.0f, 400.0f});
     sub_bob_->setPosition({1500.0f, 600.0f});
 
+
     rod_ = new Rod(300.0f, 2.0f);
-    rod_ball_ = new Ball(30.0f, sf::Color::White);
-    rod_->connect(rod_ball_);
+    sub_rod_ = new Rod(300.0f, 2.0f);
+    ball_ = new Ball(30.0f, sf::Color::White);
+    sub_ball_ = new Ball(30.0f, sf::Color::White);
     rod_->setStart({960.0f, 100.0f});
-    rod_ball_->setPosition({1500.0f, 600.0f});
+    ball_->setPosition({960 + 300, 400.0f});
+    sub_ball_->setPosition(ball_->getPosition());
+    rod_->connect(ball_);
+    sub_rod_->connect(sub_ball_);
 }
 
 void Game::run() {
@@ -61,21 +66,23 @@ void Game::update(float dt) {
 
     //双摆部分
     rod_->update(dt);
-    rod_ball_->addAccel(GRAVITY * sf::Vector2f(0.0f, 1.0f) / rod_ball_->getMass());
-    rod_ball_->update(dt);
+    sub_rod_->setStart(ball_->getPosition());
+    sub_rod_->update(dt);
 }
 
 void Game::render() {
     window_.clear();
 
     //渲染
+    //双弹簧部分
     // spring_->render(window_);
     // sub_spring_->render(window_);
     // bob_->render(window_);
     // sub_bob_->render(window_);
 
+    //双摆部分
     rod_->render(window_);
-    rod_ball_->render(window_);
+    sub_rod_->render(window_);
 
     window_.display();
 }

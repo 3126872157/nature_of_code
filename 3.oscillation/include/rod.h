@@ -36,6 +36,10 @@ private:
     sf::Vector2f start_;
     sf::Vector2f end_;
 
+    float angle_;
+    float angle_vel_;
+    float angle_acc_;
+
     Ball* bob_;
 
     sf::RectangleShape entity_;

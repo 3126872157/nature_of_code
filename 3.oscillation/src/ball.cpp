@@ -18,7 +18,7 @@ Ball::Ball(float radius, sf::Color color){
 void Ball::update(float dt){
     vel_ += accel_ * dt;
     pos_ += vel_ * dt;
-    entity_.setPosition(pos_);
+    entity_.setPosition(pos_ + sf::Vector2f({-radius_,-radius_}));
     emptyAccel();
 }
 
@@ -33,6 +33,7 @@ void Ball::setCalMass(std::function<float(float)> calMass){
 
 void Ball::setPosition(const sf::Vector2f &position){
     pos_ = position;
+    entity_.setPosition(pos_ + sf::Vector2f(-radius_,-radius_));
 }
 
 void Ball::setVelocity(const sf::Vector2f &velocity) {
@@ -49,7 +50,7 @@ void Ball::emptyAccel()
 }
 
 sf::Vector2f Ball::getPosition() const{
-    return pos_ + sf::Vector2f(radius_, radius_);
+    return pos_;
 }
 
 float Ball::getMass() const{

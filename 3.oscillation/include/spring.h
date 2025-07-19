@@ -16,7 +16,7 @@
 
 class Spring {
 public:
-    explicit Spring(const float origin_length, const float k, const float thick);
+    explicit Spring(float origin_length, float k, float thick);
     ~Spring() = default;
 
     void connect(Ball* bob);

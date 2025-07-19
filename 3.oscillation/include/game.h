@@ -11,6 +11,7 @@
 
 //project
 #include "ball.h"
+#include "rod.h"
 #include "spring.h"
 
 #define GRAVITY 1000000.0f
@@ -32,6 +33,9 @@ private:
     Ball* sub_bob_;
     Spring* spring_;
     Spring* sub_spring_;
+
+    Ball* rod_ball_;
+    Rod* rod_;
 };
 
 

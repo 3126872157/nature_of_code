@@ -22,13 +22,14 @@ Game::Game(const std::string &title, unsigned int width, unsigned int height) {
     sub_bob_->setPosition({1500.0f, 600.0f});
 
 
-    rod_ = new Rod(300.0f, 2.0f);
-    sub_rod_ = new Rod(300.0f, 2.0f);
-    ball_ = new Ball(30.0f, sf::Color::White);
-    sub_ball_ = new Ball(30.0f, sf::Color::White);
-    rod_->setStart({960.0f, 100.0f});
-    ball_->setPosition({960 + 300, 400.0f});
-    sub_ball_->setPosition(ball_->getPosition());
+    rod_ = new Rod(400.0f, 2.0f);
+    sub_rod_ = new Rod(200.0f, 2.0f);
+    ball_ = new Ball(20.0f, sf::Color::White);
+    sub_ball_ = new Ball(40.0f, sf::Color::White);
+    rod_->setStart({960.0f, 540.0f});
+    ball_->setPosition({960 + 300, 700.0f});
+    sub_rod_->setStart(ball_->getPosition());
+    sub_ball_->setPosition({1400, 300.0f});
     rod_->connect(ball_);
     sub_rod_->connect(sub_ball_);
 }
@@ -65,8 +66,12 @@ void Game::update(float dt) {
     // sub_bob_->update(dt);
 
     //双摆部分
+    auto total_force = sub_rod_->getForceStart() + ball_->getMass() * GRAVITY * sf::Vector2f(0.0f, 1.0f);
+    rod_->setTotalForce(total_force);
     rod_->update(dt);
+
     sub_rod_->setStart(ball_->getPosition());
+    sub_rod_->setTotalForce(sub_ball_->getMass() * GRAVITY * sf::Vector2f(0.0f, 1.0f));
     sub_rod_->update(dt);
 }
 

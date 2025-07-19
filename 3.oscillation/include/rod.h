@@ -29,12 +29,16 @@ public:
     void setStart(const sf::Vector2f& start);
     void setEnd(const sf::Vector2f& end);
 
+    void setTotalForce(const sf::Vector2f& force);
+
 private:
     float length_;
     float thick_;
 
     sf::Vector2f start_;
     sf::Vector2f end_;
+
+    sf::Vector2f total_force_;
 
     float angle_;
     float angle_vel_;

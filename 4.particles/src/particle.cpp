@@ -10,7 +10,7 @@ Particle::Particle() {
     radius_ = 5.0f;
     entity_ = sf::CircleShape(radius_);
     entity_.setFillColor(sf::Color::White);
-    lifespan_ = 50;
+    lifespan_ = 100;
 }
 
 Particle::~Particle() {
@@ -40,7 +40,7 @@ bool Particle::isDead() const {
 }
 
 void Particle::addForce(const sf::Vector2f &force) {
-    acc_ = force / mass_;
+    acc_ += force / mass_;
 }
 
 void Particle::setPosition(const sf::Vector2f &position) {

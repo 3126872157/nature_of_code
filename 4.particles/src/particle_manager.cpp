@@ -6,7 +6,7 @@
 
 ParticleManager::ParticleManager() {
     emitting_ = false;
-    spawn_interval_ = 0.1;
+    spawn_interval_ = 0.01;
 }
 
 void ParticleManager::update(float dt) {
@@ -26,7 +26,7 @@ void ParticleManager::update(float dt) {
 
     for (const auto &particle: list_) {
         //施加力（效果）
-        particle->addForce(sf::Vector2f(0, 5000.0f));
+        particle->addForce(sf::Vector2f(0, 10000.0f));
         particle->update(dt);
     }
 }
@@ -41,7 +41,7 @@ void ParticleManager::spawnParticle() {
     list_.emplace_back(new Particle());
     list_.back()->setPosition(spawn_pos_);
     //fixme：随机函数要改
-    list_.back()->setVelocity(sf::Vector2f(-rand() * 100.0f / RAND_MAX, rand() * 100.0f / RAND_MAX));
+    list_.back()->setVelocity(sf::Vector2f(-rand() * 100.0f / RAND_MAX + 50.0f, -rand() * 100.0f / RAND_MAX + 50.0f));
 }
 
 void ParticleManager::setPosition(const sf::Vector2f &pos) {

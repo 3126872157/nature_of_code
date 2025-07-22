@@ -16,6 +16,8 @@ public:
     explicit FlowField(const int width, const int height, const float scale, const int resolution);
     ~FlowField();
 
+    void render(sf::RenderWindow& window);
+
     float getFlow(const float x, const float y) const;
     float getFlow(const sf::Vector2f &pos) const;
 

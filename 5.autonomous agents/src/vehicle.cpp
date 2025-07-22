@@ -8,12 +8,11 @@
 
 Vehicle::Vehicle() {
     radius_ = 15.0f;
-    mass_ = 0.5f;
+    mass_ = 5.0f;
     entity_ = sf::CircleShape(radius_, 3);
     max_speed_ = 500.0f;
     max_force_ = 1000.0f;
-    setVelocity(sf::Vector2f(0, -100.0f));    //正方向
-    setPosition(sf::Vector2f(1500, 540));
+    setPosition(sf::Vector2f(960, 540));
 }
 
 //utils
@@ -44,7 +43,6 @@ void wrapAround(sf::Vector2f& pos) {
 
 void Vehicle::update(float dt){
     vel_ += acc_ * dt;
-    std::cout << vel_.length() << std::endl;
     constrain(vel_, max_speed_);
     pos_ += vel_ * dt;
 
@@ -69,7 +67,6 @@ void Vehicle::seek(const sf::Vector2f &target) {
     steer_ = desire - vel_;
     constrain(steer_, max_force_);
     addForce(steer_);
-    std::cout << steer_.x << ", " << steer_.y << std::endl;
 }
 
 void Vehicle::addForce(const sf::Vector2f &force) {
@@ -82,6 +79,11 @@ void Vehicle::setPosition(const sf::Vector2f &position) {
 
 void Vehicle::setVelocity(const sf::Vector2f &velocity) {
     vel_ = velocity;
+}
+
+void Vehicle::setColor(const sf::Color &color) {
+    color_ = color;
+    entity_.setFillColor(color);
 }
 
 sf::Vector2f Vehicle::getPosition() const {

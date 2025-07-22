@@ -8,12 +8,21 @@
 #### 随机
 ![一维柏林](assets/perlin_1D.gif)
 ![二维柏林](assets/perlin_2D.gif)
+</br>
+</br>
 
 #### 力矢
 ![万有引力](assets/force.gif)
+</br>
+</br>
 
 #### 振荡
 ![双弹簧](assets/ocisllation.gif)
+</br>
+</br>
+
+#### 自主代理
+![流场和代理](assets/agents.gif)
 
 ### SFML 的 linux 环境
 

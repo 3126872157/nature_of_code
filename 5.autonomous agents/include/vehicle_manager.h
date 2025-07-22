@@ -14,30 +14,21 @@
 #include "SFML/Graphics.hpp"
 
 //project
-#include "particle.h"
+#include "vehicle.h"
+#include "flow_field.h"
 
 class VehicleManager {
 public:
-    VehicleManager();
+    VehicleManager(const int num);
     ~VehicleManager() = default;
 
     void update(float dt);
     void render(sf::RenderWindow &window);
 
-    void spawnParticle();
-
-    void setPosition(const sf::Vector2f& pos);
-    void setEmit(const bool if_emit);
-
 private:
-    std::vector<Particle*> list_;
-
-    sf::Vector2f spawn_pos_;
-
-    float spawn_interval_;
-    float spawn_radius_;
-
-    bool emitting_;
+    int num_;
+    std::vector<Vehicle*> list_;
+    FlowField* flow_filed_;
 };
 
 

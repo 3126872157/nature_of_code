@@ -10,8 +10,7 @@ Game::Game(const std::string &title, unsigned int width, unsigned int height) {
     window_.setFramerateLimit(60);
 
     //初始化
-    vehicle_ = new Vehicle();
-    flow_filed_ = new FlowField(width, height, 16, 210);
+    vehicle_manager_ = new VehicleManager(1000);
 }
 
 void Game::run() {
@@ -36,18 +35,15 @@ void Game::processEvents() {
 
 void Game::update(float dt) {
     //vehicle_->seek(target_);
-    auto angle = flow_filed_->getFlow(vehicle_->getPosition());
-    float len = 500.0f;
-    sf::Vector2f force = sf::Vector2f(len * std::sin(angle), len * std::cos(angle));
-    vehicle_->addForce(force);
-    vehicle_->update(dt);
+    vehicle_manager_->update(dt);
 }
 
 void Game::render() {
     window_.clear();
 
     //渲染
-    vehicle_->render(window_);
+    //vehicle_->render(window_);
+    vehicle_manager_->render(window_);
 
     window_.display();
 }

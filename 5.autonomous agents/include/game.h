@@ -10,6 +10,7 @@
 #include "SFML/Graphics.hpp"
 
 //project
+#include "flow_field.h"
 #include "vehicle.h"
 
 #define GRAVITY 10000.0f
@@ -28,6 +29,7 @@ private:
 private:
     sf::RenderWindow window_;
     Vehicle* vehicle_;
+    FlowField* flow_filed_;
     sf::Vector2f target_;
 };
 

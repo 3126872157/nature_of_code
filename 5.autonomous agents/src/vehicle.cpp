@@ -13,12 +13,12 @@ Vehicle::Vehicle() {
     max_speed_ = 500.0f;
     max_force_ = 1000.0f;
     setVelocity(sf::Vector2f(0, -100.0f));    //正方向
-    setPosition(sf::Vector2f(100, 100));
+    setPosition(sf::Vector2f(1500, 540));
 }
 
 //utils
 void constrain(sf::Vector2f& x, float max) {
-    x = x.length() > max ? x.normalized() * x.length() : x;
+    x = x.length() > max ? x.normalized() * max : x;
 }
 //utils
 float angleBetween(const sf::Vector2f& v1, const sf::Vector2f& v2) {
@@ -28,10 +28,27 @@ float angleBetween(const sf::Vector2f& v1, const sf::Vector2f& v2) {
     return std::atan2(det, dot);  // 返回的是 [-π, π] 区间的弧度
 }
 
+void wrapAround(sf::Vector2f& pos) {
+    if (pos.x > 1920.0f) {
+        pos.x = 0;
+    } else if (pos.x < 0) {
+        pos.x = 1920.0f;
+    }
+
+    if (pos.y > 1080.0f) {
+        pos.y = 0;
+    } else if (pos.y < 0) {
+        pos.y = 1080.0f;
+    }
+}
+
 void Vehicle::update(float dt){
     vel_ += acc_ * dt;
+    std::cout << vel_.length() << std::endl;
     constrain(vel_, max_speed_);
     pos_ += vel_ * dt;
+
+    wrapAround(pos_);
 
     //方向
     direction_ = angleBetween(vel_, sf::Vector2f(0, -1.0f));

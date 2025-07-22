@@ -20,7 +20,6 @@ Game::Game(const std::string &title, unsigned int width, unsigned int height) {
         for (int x = 0; x < width; ++x) {
             float val = perlin.noise2D(x * scale / width, y * scale / height); // scale 控制粗糙度
             val = (val + 1.f) / 2.f; // [-1,1] → [0,1]
-            std::cout << val << std::endl;
             auto gray = val * 255.0f;
             image.setPixel({x, y}, sf::Color(gray, gray, gray));
         }

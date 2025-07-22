@@ -11,7 +11,7 @@ Game::Game(const std::string &title, unsigned int width, unsigned int height) {
 
     //初始化
     vehicle_ = new Vehicle();
-    target_ = sf::Vector2f(window_.getSize().x / 2, window_.getSize().y / 2);
+    flow_filed_ = new FlowField(width, height, 16, 210);
 }
 
 void Game::run() {
@@ -30,12 +30,16 @@ void Game::processEvents() {
             window_.close();
         }
         //输入
-        target_ = static_cast<sf::Vector2f>(sf::Mouse::getPosition(window_));
+        //target_ = static_cast<sf::Vector2f>(sf::Mouse::getPosition(window_));
     }
 }
 
 void Game::update(float dt) {
-    vehicle_->seek(target_);
+    //vehicle_->seek(target_);
+    auto angle = flow_filed_->getFlow(vehicle_->getPosition());
+    float len = 500.0f;
+    sf::Vector2f force = sf::Vector2f(len * std::sin(angle), len * std::cos(angle));
+    vehicle_->addForce(force);
     vehicle_->update(dt);
 }
 

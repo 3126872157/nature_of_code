@@ -1,13 +1,21 @@
-### 自述
+## 自述
 这是一个使用 sfml 实现 Daniel Shiffman 的 [Nature of Code](https://natureofcode.com/) 这本书的项目 </br>
 使用 CMake 构建，顶层有一个共用 cmake </br>
 实现不同章节的 cmake 管理 </br>
 每个章节的实现不与书上完全一样，大多以书为启迪，自己实现的
 
-#### 概览
+### 概览
+#### 随机
+![一维柏林](assets/perlin_1D.gif)
+![二维柏林](assets/perlin_2D.gif)
 
+#### 力矢
+![万有引力](assets/force.gif)
 
-#### SFML 的 linux 环境
+#### 振荡
+![双弹簧](assets/ocisllation.gif)
+
+### SFML 的 linux 环境
 
    ```
    sudo apt update
@@ -23,14 +31,14 @@
        libegl1-mesa-dev \
        libfreetype-dev
    ```
-#### 在根目录构建
+### 在根目录构建
 
    ```
    cmake -B build
    cmake --build build
    ```
 
-#### 关于 CMake
+### 关于 CMake
 
 Here are some useful resources if you want to learn more about CMake:
 

@@ -2,7 +2,7 @@
 
 int main()
 {
-    Game game("Random Walker", 1920, 1080);
+    Game game("Random Walker", 400, 400);
     game.run();
     return 0;
 }

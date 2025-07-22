@@ -26,6 +26,7 @@ private:
 private:
     sf::RenderWindow window_;
     RandomWalker* randomWalker_;
+    Perlin perlin;
 };
 
 

@@ -14,7 +14,7 @@
 #include "rod.h"
 #include "spring.h"
 
-#define GRAVITY 10000.0f
+#define GRAVITY 1000000.0f
 
 class Game {
 public:

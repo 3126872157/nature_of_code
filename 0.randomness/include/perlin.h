@@ -4,8 +4,12 @@
 
 #ifndef PERLIN_H
 #define PERLIN_H
+
+//std
 #include <vector>
 
+//sfml
+#include "SFML/Graphics.hpp"
 
 class Perlin {
 public:
@@ -13,11 +17,14 @@ public:
     ~Perlin() = default;
 
 public:
-    double noise1D(double x);
+    float noise1D(float x);
+    float noise2D(const float x, const float y);
 
 private:
-    double fade(double t);
-    double lerp(double t, double a, double b);
+    float fade(float t);
+
+    template<typename T>
+    T lerp(float t, T a, T b);
 
 private:
     std::vector<int> perm = {151,160,137,91,90,15,

@@ -10,7 +10,7 @@ Game::Game(const std::string &title, unsigned int width, unsigned int height) {
     window_.setFramerateLimit(60);
 
     //初始化
-    particle_manager_ = new VehicleManager();
+    particle_manager_ = new ParticleManager();
     particle_manager_->setPosition(sf::Vector2f(width / 2, height / 2));
     particle_manager_->setEmit(true);
 }

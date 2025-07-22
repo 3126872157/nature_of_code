@@ -28,7 +28,7 @@ private:
 
 private:
     sf::RenderWindow window_;
-    VehicleManager* particle_manager_;
+    ParticleManager* particle_manager_;
 };
 
 

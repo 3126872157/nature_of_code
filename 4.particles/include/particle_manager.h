@@ -16,10 +16,10 @@
 //project
 #include "particle.h"
 
-class VehicleManager {
+class ParticleManager {
 public:
-    VehicleManager();
-    ~VehicleManager() = default;
+    ParticleManager();
+    ~ParticleManager() = default;
 
     void update(float dt);
     void render(sf::RenderWindow &window);

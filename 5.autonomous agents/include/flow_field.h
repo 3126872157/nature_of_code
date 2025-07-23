@@ -13,6 +13,7 @@
 
 class FlowField {
 public:
+    //scale是给柏林噪声的，越小越规律，分辨率越低
     explicit FlowField(const int width, const int height, const float scale, const int resolution);
     ~FlowField();
 
@@ -24,6 +25,7 @@ public:
 private:
     int width_;
     int height_;
+    //越小，流场分辨越高，请填30的倍数（1920，1080的公倍数）
     int resolution_;
 
     float* field_;

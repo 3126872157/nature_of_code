@@ -16,9 +16,10 @@ VehicleManager::VehicleManager(const int num) {
 void VehicleManager::update(float dt) {
     for (auto &vehicle : list_) {
         auto angle = flow_filed_->getFlow(vehicle->getPosition());
-        float len = 5000.0f;
+        float len = 50000.0f;    //随便设置的一个很大速度
         sf::Vector2f force = sf::Vector2f(len * std::cos(angle), len * std::sin(angle));
-        vehicle->addForce(force);
+        vehicle->seek(force);
+        //vehicle->addForce(force);
         vehicle->update(dt);
     }
 }

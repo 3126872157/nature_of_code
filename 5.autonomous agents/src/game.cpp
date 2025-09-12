@@ -10,7 +10,7 @@ Game::Game(const std::string &title, unsigned int width, unsigned int height) {
     window_.setFramerateLimit(60);
 
     //初始化
-    vehicle_manager_ = new VehicleManager(1000);
+    vehicle_manager_ = new VehicleManager(100);
 }
 
 void Game::run() {

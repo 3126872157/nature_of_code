@@ -6,6 +6,7 @@
 
 VehicleManager::VehicleManager(const int num) {
     num_ = num;
+    separation_ = 80.0;
     for (int i = 0; i < num; i++) {
         list_.emplace_back(new Vehicle());
         list_.back()->setPosition({rand() * 1920.0f / RAND_MAX, rand() * 1080.0f / RAND_MAX});
@@ -20,7 +21,22 @@ void VehicleManager::update(float dt) {
         sf::Vector2f force = sf::Vector2f(len * std::cos(angle), len * std::sin(angle));
         vehicle->seek(force);
         //vehicle->addForce(force);
+        separate();
         vehicle->update(dt);
+    }
+}
+
+void VehicleManager::separate() {
+    for (auto &myself : list_) {
+        for (auto &other : list_) {
+            if (myself != other) {
+                auto dist = other->getPosition() - myself->getPosition();
+                if (dist.length() < separation_) {
+                    myself->addForce(-dist * 0.5f);
+                    other->addForce(dist * 0.5f);
+                }
+            }
+        }
     }
 }
 

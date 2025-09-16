@@ -11,7 +11,7 @@ Vehicle::Vehicle() {
     mass_ = 5.0f;
     entity_ = sf::CircleShape(radius_, 3);
     max_speed_ = 500.0f;
-    max_force_ = 5000.0f;
+    max_force_ = 6000.0f;
     setPosition(sf::Vector2f(960, 540));
 }
 

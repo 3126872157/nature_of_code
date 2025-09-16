@@ -26,7 +26,9 @@ public:
     void render(sf::RenderWindow &window);
 
 private:
+    void separate();
     int num_;
+    float separation_;
     std::vector<Vehicle*> list_;
     FlowField* flow_filed_;
 };

@@ -27,6 +27,7 @@ public:
     void setColor(const sf::Color &color);
 
     sf::Vector2f getPosition() const;
+    sf::Vector2f getVelocity() const;
 
 private:
     sf::Vector2f pos_;

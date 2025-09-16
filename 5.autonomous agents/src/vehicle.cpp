@@ -62,6 +62,7 @@ void Vehicle::render(sf::RenderWindow &window) {
     window.draw(entity_);
 }
 
+//steer 理论的转向方法，比 add Force 顺滑一点
 void Vehicle::seek(const sf::Vector2f &target) {
     auto desire = target - pos_;
     steer_ = desire - vel_;
@@ -88,4 +89,8 @@ void Vehicle::setColor(const sf::Color &color) {
 
 sf::Vector2f Vehicle::getPosition() const {
     return pos_;
+}
+
+sf::Vector2f Vehicle::getVelocity() const {
+    return vel_;
 }

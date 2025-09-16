@@ -27,8 +27,13 @@ public:
 
 private:
     void separate();
+    void cohere();
+    void align();
+
     int num_;
     float separation_;
+    float coherence_;
+    float alignment_;
     std::vector<Vehicle*> list_;
     FlowField* flow_filed_;
 };

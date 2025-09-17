@@ -11,7 +11,7 @@ Vehicle::Vehicle() {
     mass_ = 5.0f;
     entity_ = sf::CircleShape(radius_, 3);
     max_speed_ = 500.0f;
-    max_force_ = 6000.0f;
+    max_force_ = 60000.0f;
     setPosition(sf::Vector2f(960, 540));
 }
 
@@ -62,10 +62,18 @@ void Vehicle::render(sf::RenderWindow &window) {
     window.draw(entity_);
 }
 
+void Vehicle::steer(const sf::Vector2f &target) {
+    auto t = target.normalized() * max_speed_;
+    auto desire = (t - vel_) * 10.0f;
+    constrain(desire, max_force_);
+    addForce(desire);
+}
+
 //steer 理论的转向方法，比 add Force 顺滑一点
 void Vehicle::seek(const sf::Vector2f &target) {
-    auto desire = target - pos_;
-    steer_ = desire - vel_;
+    auto t = target - pos_;
+    auto desire = t.normalized() * max_speed_;
+    steer_ = (desire - vel_) * 100.0f;
     constrain(steer_, max_force_);
     addForce(steer_);
 }

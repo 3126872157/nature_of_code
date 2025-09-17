@@ -29,12 +29,12 @@ void Game::processEvents() {
             window_.close();
         }
         //输入
-        //target_ = static_cast<sf::Vector2f>(sf::Mouse::getPosition(window_));
+        target_ = static_cast<sf::Vector2f>(sf::Mouse::getPosition(window_));
     }
 }
 
 void Game::update(float dt) {
-    //vehicle_->seek(target_);
+    vehicle_manager_->seek(target_);
     vehicle_manager_->update(dt);
 }
 

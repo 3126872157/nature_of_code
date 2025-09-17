@@ -19,6 +19,7 @@ public:
     void update(float dt);
     void render(sf::RenderWindow &window);
 
+    void steer(const sf::Vector2f &target);
     void seek(const sf::Vector2f &position);
     void addForce(const sf::Vector2f &accel);
 

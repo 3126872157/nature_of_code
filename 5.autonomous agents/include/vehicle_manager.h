@@ -25,6 +25,8 @@ public:
     void update(float dt);
     void render(sf::RenderWindow &window);
 
+    void seek(sf::Vector2f target);
+
 private:
     void separate();
     void cohere();

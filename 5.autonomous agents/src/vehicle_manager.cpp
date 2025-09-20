@@ -24,9 +24,9 @@ void VehicleManager::update(float dt) {
         auto angle = flow_filed_->getFlow(vehicle->getPosition());
         float len = 50000.0f; //随便设置的一个很大速度
         sf::Vector2f force = sf::Vector2f(len * std::cos(angle), len * std::sin(angle));
-        //vehicle->seek(force);
+        vehicle->seek(force);
         //vehicle->addForce(force);
-        separate();
+        // separate();
         //cohere();
         //align();
         vehicle->update(dt);

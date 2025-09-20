@@ -73,7 +73,7 @@ void Vehicle::steer(const sf::Vector2f &target) {
 void Vehicle::seek(const sf::Vector2f &target) {
     auto t = target - pos_;
     auto desire = t.normalized() * max_speed_;
-    steer_ = (desire - vel_) * 100.0f;
+    steer_ = (desire - vel_) * 5.0f;
     constrain(steer_, max_force_);
     addForce(steer_);
 }

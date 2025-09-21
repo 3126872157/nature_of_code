@@ -13,7 +13,7 @@ Vehicle::Vehicle() {
     radius_ = 15.0f;
     mass_ = 1.0f;
     entity_ = sf::CircleShape(radius_, 3);
-    max_speed_ = 500.0f; //500 pixel/s
+    max_speed_ = 300.0f; //300 pixel/s
     max_force_ = 1000.0f;
     setPosition(sf::Vector2f(960, 540));
     entity_.setOrigin({radius_, radius_});

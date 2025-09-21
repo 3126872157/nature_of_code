@@ -8,21 +8,21 @@
 
 VehicleManager::VehicleManager(const int num) {
     num_ = num;
-    separation_ = 80.0;
+    separation_ = 50.0;
     coherence_ = 150.0;
     alignment_ = 300.0;
     for (int i = 0; i < num; i++) {
         list_.emplace_back(new Vehicle());
         list_.back()->setPosition({rand() * 1920.0f / RAND_MAX, rand() * 1080.0f / RAND_MAX});
         float angle = 2.0f * M_PI * rand() / RAND_MAX;
-        float speed = rand() % 500;
-        //list_.back()->setVelocity({speed * cosf(angle), speed * sinf(angle)});
+        float speed = rand() % 100;
+        list_.back()->setVelocity({speed * cosf(angle), speed * sinf(angle)});
     }
 }
 
 void VehicleManager::update(float dt) {
     for (auto &vehicle: list_) {
-        //vehicle->addForce(force);
+        separate();
         vehicle->update(dt);
     }
 }
@@ -43,6 +43,7 @@ void VehicleManager::separate() {
         if (counter > 0) {
             sum /= static_cast<float>(counter);
             myself->steer(sum);
+            //myself->addForce(sum * 1000.0f);
         }
     }
 }

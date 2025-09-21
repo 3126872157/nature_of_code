@@ -10,7 +10,7 @@ Game::Game(const std::string &title, unsigned int width, unsigned int height) {
     window_.setFramerateLimit(60);
 
     //初始化
-    vehicle_manager_ = new VehicleManager(1);
+    vehicle_manager_ = new VehicleManager(50);
 }
 
 void Game::run() {
@@ -34,7 +34,7 @@ void Game::processEvents() {
 }
 
 void Game::update(float dt) {
-    vehicle_manager_->seek(target_);
+    //vehicle_manager_->seek(target_);
     vehicle_manager_->update(dt);
 }
 

@@ -24,6 +24,9 @@
 #### [自主代理](5.autonomous%20agents/README.md)
 ![流场和代理](assets/agents.gif)
 
+### TODO
++ [ ] 随机二维柏林噪声，生成流场；更好的话是三维，加上时间维度
+
 ### SFML 的 linux 环境
 
    ```

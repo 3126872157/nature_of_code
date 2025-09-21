@@ -30,7 +30,7 @@ void Vehicle::update(float dt){
     acc_ = sf::Vector2f(0, 0);
 
     //方向，防抽搐振荡
-    if (vel_.length() < 1e-1f)
+    if (vel_.length() < 1.f)
         return;
     direction_ = angleBetween(vel_, sf::Vector2f(0, -1.0f));
 }
@@ -44,9 +44,10 @@ void Vehicle::render(sf::RenderWindow &window) {
 }
 
 //Reynolds 转向理论，target 是目标位置
-void Vehicle::steer(const sf::Vector2f &target) {
+void Vehicle::steer(const sf::Vector2f &target, const float k) {
     auto t = target.normalized() * max_speed_;
-    auto desire = (t - vel_);
+    //TODO：从物理意义上解释这个魔法数字
+    auto desire = (t - vel_) * k;
     constrain(desire, max_force_);
     addForce(desire);
 }
@@ -68,7 +69,7 @@ void Vehicle::seek(const sf::Vector2f &target) {
     }
 
     //因为是速度期望转为力（加速度），没有直接物理意义，所以加上一个系数（魔法数字）
-    auto desire = (t - vel_) * 10.0f;
+    auto desire = (t - vel_) * 1.0f;
     constrain(desire, max_force_);
     addForce(desire);
 }

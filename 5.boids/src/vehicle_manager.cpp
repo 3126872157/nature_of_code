@@ -9,7 +9,7 @@
 VehicleManager::VehicleManager(const int num) {
     num_ = num;
     separation_ = 50.0;
-    coherence_ = 150.0;
+    coherence_ = 300.0;
     alignment_ = 300.0;
     for (int i = 0; i < num; i++) {
         list_.emplace_back(new Vehicle());
@@ -23,6 +23,8 @@ VehicleManager::VehicleManager(const int num) {
 void VehicleManager::update(float dt) {
     for (auto &vehicle: list_) {
         separate();
+        align();
+        cohere();
         vehicle->update(dt);
     }
 }
@@ -42,8 +44,8 @@ void VehicleManager::separate() {
         }
         if (counter > 0) {
             sum /= static_cast<float>(counter);
-            myself->steer(sum);
-            //myself->addForce(sum * 1000.0f);
+            myself->steer(sum, sum.length() * 1.0f);
+            // myself->addForce(sum * 1000.0f);
         }
     }
 }
@@ -56,14 +58,14 @@ void VehicleManager::cohere() {
             if (myself != other) {
                 auto dist = other->getPosition() - myself->getPosition();
                 if (dist.length() < coherence_) {
-                    sum += dist.length() * dist.normalized() * 0.01f;
+                    sum += dist.length() * dist.normalized();
                     counter++;
                 }
             }
         }
         if (counter > 0) {
             sum /= static_cast<float>(counter);
-            myself->steer(sum);
+            myself->steer(sum, sum.length() * 0.00005);
         }
     }
 }
@@ -71,16 +73,20 @@ void VehicleManager::cohere() {
 void VehicleManager::align() {
     for (auto &myself: list_) {
         sf::Vector2f align_speed = {};
+        int counter = 0;
         for (auto &other: list_) {
             if (myself != other) {
                 auto dist = other->getPosition() - myself->getPosition();
                 if (dist.length() < alignment_) {
                     align_speed += other->getVelocity();
+                    counter++;
                 }
             }
         }
-        align_speed /= static_cast<float>(list_.size());
-        myself->steer(align_speed * 100.0f);
+        if (counter > 0){
+            align_speed /= static_cast<float>(list_.size());
+            myself->steer(align_speed, align_speed.length() * 0.001f);
+        }
     }
 }
 

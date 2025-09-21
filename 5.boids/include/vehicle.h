@@ -19,7 +19,8 @@ public:
     void update(float dt);
     void render(sf::RenderWindow &window);
 
-    void steer(const sf::Vector2f &target);
+    //k影响速度期望转化为转向力的因子
+    void steer(const sf::Vector2f &target, const float k);
     void seek(const sf::Vector2f &position);
     void addForce(const sf::Vector2f &accel);
 

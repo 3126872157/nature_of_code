@@ -23,7 +23,6 @@ void Vehicle::update(float dt){
     vel_ += acc_ * dt;
     constrain(vel_, max_speed_);
     pos_ += vel_ * dt;
-    std::cout << vel_.length() << std::endl;
 
     wrapAround(pos_);
 
@@ -43,13 +42,21 @@ void Vehicle::render(sf::RenderWindow &window) {
     window.draw(entity_);
 }
 
-//Reynolds 转向理论，target 是目标位置
+//Reynolds 转向理论，target 是期望的方向向量（不需要是单位向量，但通常是）
 void Vehicle::steer(const sf::Vector2f &target, const float k) {
-    auto t = target.normalized() * max_speed_;
-    //TODO：从物理意义上解释这个魔法数字
-    auto desire = (t - vel_) * k;
-    constrain(desire, max_force_);
-    addForce(desire);
+    // 1. 计算期望速度：方向 * 最大速度
+    // 注意：这里假设 target 已经是一个方向向量。如果 target 长度为0，则不施加力。
+    if (target.length() == 0) return;
+
+    auto desired_velocity = target.normalized() * max_speed_;
+
+    // 2. 计算转向力：期望速度 - 当前速度
+    auto steer_force = (desired_velocity - vel_) * k;
+
+    // 3. 限制最大力
+    constrain(steer_force, max_force_);
+
+    addForce(steer_force);
 }
 
 void Vehicle::seek(const sf::Vector2f &target) {
@@ -57,7 +64,7 @@ void Vehicle::seek(const sf::Vector2f &target) {
 
     //去除振荡
     if (t.length() < 1e-1f) {
-        vel_ = {0, 0};
+        // vel_ = {0, 0}; // 通常不直接归零，而是让力消失
         return;
     }
 
@@ -69,7 +76,7 @@ void Vehicle::seek(const sf::Vector2f &target) {
     }
 
     //因为是速度期望转为力（加速度），没有直接物理意义，所以加上一个系数（魔法数字）
-    auto desire = (t - vel_) * 1.0f;
+    auto desire = (t - vel_) * 0.1f;
     constrain(desire, max_force_);
     addForce(desire);
 }

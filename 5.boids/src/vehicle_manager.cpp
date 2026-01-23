@@ -9,8 +9,8 @@
 VehicleManager::VehicleManager(const int num) {
     num_ = num;
     separation_ = 50.0;
-    coherence_ = 300.0;
-    alignment_ = 300.0;
+    coherence_ = 100.0;
+    alignment_ = 100.0;
     for (int i = 0; i < num; i++) {
         list_.emplace_back(new Vehicle());
         list_.back()->setPosition({rand() * 1920.0f / RAND_MAX, rand() * 1080.0f / RAND_MAX});
@@ -21,10 +21,13 @@ VehicleManager::VehicleManager(const int num) {
 }
 
 void VehicleManager::update(float dt) {
+    // 1. 计算所有力
+    separate();
+    align();
+    cohere();
+
+    // 2. 统一更新物理状态
     for (auto &vehicle: list_) {
-        separate();
-        align();
-        cohere();
         vehicle->update(dt);
     }
 }
@@ -36,16 +39,21 @@ void VehicleManager::separate() {
         for (auto &other: list_) {
             if (myself != other) {
                 auto dist = myself->getPosition() - other->getPosition();
-                if (dist.length() < separation_) {
-                    sum += 1 / dist.length() * dist.normalized();
+                float d = dist.length();
+                if (d < separation_ && d > 0) {
+                    // 权重与距离成反比
+                    sum += dist.normalized() / d;
                     counter++;
                 }
             }
         }
         if (counter > 0) {
             sum /= static_cast<float>(counter);
-            myself->steer(sum, sum.length() * 1.0f);
-            // myself->addForce(sum * 1000.0f);
+            // 分离力通常需要较大权重
+            if (sum.length() > 0) {
+                sum = sum.normalized() * 1.5f; // 任意系数，代表期望速度方向
+                myself->steer(sum, 0.5f); // 这里的 k 是力的系数
+            }
         }
     }
 }
@@ -57,15 +65,17 @@ void VehicleManager::cohere() {
         for (auto &other: list_) {
             if (myself != other) {
                 auto dist = other->getPosition() - myself->getPosition();
-                if (dist.length() < coherence_) {
-                    sum += dist.length() * dist.normalized();
+                if (dist.length() < coherence_ && dist.length() > 0) {
+                    // 累加绝对位置
+                    sum += other->getPosition();
                     counter++;
                 }
             }
         }
         if (counter > 0) {
             sum /= static_cast<float>(counter);
-            myself->steer(sum, sum.length() * 0.00005);
+            // 传入目标位置，让 seek 去计算期望速度
+            myself->seek(sum);
         }
     }
 }
@@ -84,8 +94,14 @@ void VehicleManager::align() {
             }
         }
         if (counter > 0){
-            align_speed /= static_cast<float>(list_.size());
-            myself->steer(align_speed, align_speed.length() * 0.001f);
+            // 修复：除以 counter 而不是 list_.size()
+            align_speed /= static_cast<float>(counter);
+
+            // 期望速度就是邻居的平均速度
+            if (align_speed.length() > 0) {
+                align_speed = align_speed.normalized();
+                myself->steer(align_speed, 2.0f);
+            }
         }
     }
 }

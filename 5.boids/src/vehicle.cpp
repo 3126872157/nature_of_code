@@ -76,7 +76,7 @@ void Vehicle::seek(const sf::Vector2f &target) {
     }
 
     //因为是速度期望转为力（加速度），没有直接物理意义，所以加上一个系数（魔法数字）
-    auto desire = (t - vel_) * 0.1f;
+    auto desire = (t - vel_) * 0.3f;
     constrain(desire, max_force_);
     addForce(desire);
 }

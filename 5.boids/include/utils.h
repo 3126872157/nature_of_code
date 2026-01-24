@@ -35,4 +35,9 @@ sf::Vector2f setMag(const sf::Vector2f &v, float m) {
     return n * m;
 }
 
+float getSin(float magnitude, float offset)
+{
+    return
+}
+
 #endif //BOIDS_UTILS_H

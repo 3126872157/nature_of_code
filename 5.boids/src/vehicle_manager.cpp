@@ -8,8 +8,8 @@
 
 VehicleManager::VehicleManager(const int num) {
     num_ = num;
-    separation_ = 50.0;
-    coherence_ = 100.0;
+    separation_ = 25.0;
+    coherence_ = 50.0;
     alignment_ = 100.0;
     for (int i = 0; i < num; i++) {
         list_.emplace_back(new Vehicle());
@@ -51,8 +51,8 @@ void VehicleManager::separate() {
             sum /= static_cast<float>(counter);
             // 分离力通常需要较大权重
             if (sum.length() > 0) {
-                sum = sum.normalized() * 1.5f; // 任意系数，代表期望速度方向
-                myself->steer(sum, 0.5f); // 这里的 k 是力的系数
+                sum = sum.normalized(); // 任意系数，代表期望速度方向
+                myself->steer(sum, 10.0f); // 这里的 k 是力的系数
             }
         }
     }

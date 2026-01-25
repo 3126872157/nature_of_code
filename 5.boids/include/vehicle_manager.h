@@ -16,6 +16,7 @@
 //project
 #include "vehicle.h"
 
+
 class VehicleManager {
 public:
     VehicleManager(const int num);
@@ -27,9 +28,9 @@ public:
     void seek(sf::Vector2f target);
 
 private:
-    void separate();
-    void cohere();
-    void align();
+    void separate(float t);
+    void cohere(float t);
+    void align(float t);
 
     int num_;
     float separation_;

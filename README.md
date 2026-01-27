@@ -24,6 +24,9 @@
 #### [自主代理](5.autonomous_agents/README.md)
 ![流场和代理](assets/agents.gif)
 
+#### [群落](5.boids/README.md)
+![四叉树优化的群落](assets/boids.gif)
+
 ### TODO
 + [ ] 随机二维柏林噪声，生成流场；更好的话是三维，加上时间维度
 

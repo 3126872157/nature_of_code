@@ -10,12 +10,13 @@
 #include "../include/utils.h"
 
 Vehicle::Vehicle() {
-    radius_ = 15.0f;
+    radius_ = 10.0f;
     mass_ = 1.0f;
     entity_ = sf::CircleShape(radius_, 3);
     max_speed_ = 300.0f; //300 pixel/s
     max_force_ = 1000.0f;
     setPosition(sf::Vector2f(960, 540));
+    //使物体原点移到圆心（使旋转有意义）
     entity_.setOrigin({radius_, radius_});
 }
 

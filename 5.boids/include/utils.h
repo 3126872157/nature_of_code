@@ -8,6 +8,9 @@
 #include "SFML/System/Vector2.hpp"
 #include <cmath>
 
+#define WIDTH 2560
+#define HEIGHT 1600
+
 inline void constrain(sf::Vector2f& x, float max) {
     if (x.length() > max) {
         x = x.normalized() * max;
@@ -22,16 +25,16 @@ inline float angleBetween(const sf::Vector2f& v1, const sf::Vector2f& v2) {
 }
 
 inline void wrapAround(sf::Vector2f& pos) {
-    if (pos.x > 1920.0f) {
+    if (pos.x > WIDTH) {
         pos.x = 0;
     } else if (pos.x < 0) {
-        pos.x = 1920.0f;
+        pos.x = WIDTH;
     }
 
-    if (pos.y > 1080.0f) {
+    if (pos.y > HEIGHT) {
         pos.y = 0;
     } else if (pos.y < 0) {
-        pos.y = 1080.0f;
+        pos.y = WIDTH;
     }
 }
 

@@ -21,6 +21,8 @@ public:
     ~Game() = default;
 
     void run();
+    //很傻逼，TODO:思考如何优化
+    sf::Vector2f getWindowSize();
 private:
     void processEvents();
     void update(float dt);
@@ -31,6 +33,7 @@ private:
     Vehicle* vehicle_;
     VehicleManager* vehicle_manager_;
     sf::Vector2f target_;
+    sf::Vector2f window_size_;
 };
 
 

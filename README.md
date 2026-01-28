@@ -30,8 +30,8 @@
 ### TODO
 + [ ] 随机二维柏林噪声，生成流场；更好的话是三维，加上时间维度
 
-### SFML 的 linux 环境
-
+### 在 linux 上构建
+#### 环境
    ```
    sudo apt update
    sudo apt install \
@@ -46,12 +46,21 @@
        libegl1-mesa-dev \
        libfreetype-dev
    ```
-### 在根目录构建
+#### 在根目录构建
 
    ```
    cmake -B build
    cmake --build build
    ```
+
+#### 运行
+可执行文件在 build 目录下的 bin 文件夹里
+
+### 在 windows 上构建
+#### 环境
+上 sfml 官网下载制定版本的 mingw，我使用的 sfml 版本是 3.0.2（这个在 common.cmake 中可见）。
+#### 构建
+稍微配置一下工具链即可构建
 
 ### 关于 CMake
 

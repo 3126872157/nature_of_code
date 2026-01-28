@@ -19,9 +19,16 @@ elseif (UNIX AND NOT APPLE)
             GIT_REPOSITORY https://github.com/SFML/SFML.git
             GIT_TAG 3.0.1
             GIT_SHALLOW ON
-            EXCLUDE_FROM_ALL
+            #EXCLUDE_FROM_ALL
             SYSTEM)
     FetchContent_MakeAvailable(SFML)
+    
+    # --- 统一别名映射 ---
+    if (TARGET sfml-graphics AND NOT TARGET SFML::Graphics)
+        add_library(SFML::Graphics ALIAS sfml-graphics)
+        add_library(SFML::Window ALIAS sfml-window)
+        add_library(SFML::System ALIAS sfml-system)
+    endif()
 endif ()
 
 message("OS is ${OS}")

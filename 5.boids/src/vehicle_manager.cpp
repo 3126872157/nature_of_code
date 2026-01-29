@@ -111,7 +111,7 @@ void VehicleManager::applyFlocking(float t) {
             sep_sum /= static_cast<float>(sep_count);
             if (sep_sum.lengthSquared() > 0) { // 检查平方长度是否大于0
                 sep_sum = sep_sum.normalized();
-                myself->steer(sep_sum, getSin(3, 5, 1, t));
+                myself->steer(sep_sum, getSin(2, 3, 1, t));
             }
         }
 
@@ -142,6 +142,6 @@ void VehicleManager::seek(sf::Vector2f target) {
 void VehicleManager::render(sf::RenderWindow &window) {
     for (const auto &vehicle: list_) {
         vehicle->render(window);
-        // qt_root_.draw(window);
+//        qt_root_.draw(window);
     }
 }

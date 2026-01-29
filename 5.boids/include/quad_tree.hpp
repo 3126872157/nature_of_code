@@ -14,8 +14,8 @@
 //sfml
 #include "SFML/Graphics.hpp"
 
-#define MAX_DEPTH 12
-#define MAX_CAPACITY 64
+#define MAX_DEPTH 8
+#define MAX_CAPACITY 8
 
 template <typename T>
 struct QuadTreeItem {

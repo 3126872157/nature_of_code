@@ -8,8 +8,8 @@
 #include "SFML/System/Vector2.hpp"
 #include <cmath>
 
-#define WIDTH 2560
-#define HEIGHT 1600
+#define WIDTH 1920
+#define HEIGHT 1080
 
 inline void constrain(sf::Vector2f& x, float max) {
     if (x.length() > max) {
@@ -34,7 +34,7 @@ inline void wrapAround(sf::Vector2f& pos) {
     if (pos.y > HEIGHT) {
         pos.y = 0;
     } else if (pos.y < 0) {
-        pos.y = WIDTH;
+        pos.y = HEIGHT;
     }
 }
 

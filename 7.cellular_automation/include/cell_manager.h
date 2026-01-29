@@ -13,8 +13,8 @@ class CellManager
 {
 public:
     explicit CellManager(const int size);
-    CellManager(const CellManager& other);
-    CellManager& operator=(const CellManager& other);
+    CellManager(const CellManager& other) = default;
+    CellManager& operator=(const CellManager& other) = default;
     ~CellManager() = default;
 
 public:

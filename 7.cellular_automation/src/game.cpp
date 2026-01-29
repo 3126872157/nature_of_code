@@ -5,14 +5,16 @@
 #include "../include/game.h"
 #include "../include/cell_manager.h"
 
-Game::Game(const std::string &title, unsigned int width, unsigned int height) : cm_(192) {
+Game::Game(const std::string &title, unsigned int width, unsigned int height) {
     //初始窗口
     window_ = sf::RenderWindow(sf::VideoMode({width, height}), title);
     window_.setFramerateLimit(60);
     window_size_ = {static_cast<float>(width), static_cast<float>(height)};
 
     //初始化
-    cm_.init(96, 1);
+    cm_ = new CellManager(192);
+    cm_->init(96, 1);
+    cm_->draw(window_);
 }
 
 void Game::run() {
@@ -31,19 +33,18 @@ void Game::processEvents() {
             window_.close();
         }
         //输入
-
     }
 }
 
 void Game::update(float dt) {
-    cm_.update(dt);
+    cm_->update(dt);
 }
 
 void Game::render() {
     //window_.clear();
 
     //渲染
-    cm_.draw(window_);
+    cm_->draw(window_);
 
     window_.display();
 }

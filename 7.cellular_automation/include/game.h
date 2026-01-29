@@ -28,7 +28,7 @@ private:
 private:
     sf::RenderWindow window_;
     sf::Vector2f window_size_;
-    CellManager cm_;
+    CellManager* cm_;
 };
 
 

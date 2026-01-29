@@ -12,9 +12,14 @@ Game::Game(const std::string &title, unsigned int width, unsigned int height) {
     window_size_ = {static_cast<float>(width), static_cast<float>(height)};
 
     //初始化
-    cm_ = new CellManager(192);
-    cm_->init(96, 1);
-    cm_->draw(window_);
+    // 使用 360 个元胞，对应圆周的 360 度
+    cm_ = new CellManager(360, window_size_ * 0.5f);
+
+    // 在圆环上设置几个初始种子，例如 3 个点均匀分布，会形成 3 重对称
+    // 或者只设置 1 个点
+    cm_->init(0, 1);
+    // cm_->init(120, 1);
+    // cm_->init(240, 1);
 }
 
 void Game::run() {
@@ -41,7 +46,7 @@ void Game::update(float dt) {
 }
 
 void Game::render() {
-    //window_.clear();
+    window_.clear(sf::Color::Black); // 清除屏幕，背景黑色
 
     //渲染
     cm_->draw(window_);

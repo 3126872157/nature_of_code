@@ -2,7 +2,7 @@
 
 int main()
 {
-    Game game("Random Walker", WIDTH, HEIGHT);
+    Game game("Boids", WIDTH, HEIGHT);
     game.run();
     return 0;
 }

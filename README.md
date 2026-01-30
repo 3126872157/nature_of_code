@@ -27,6 +27,10 @@
 #### [群落](5.boids/README.md)
 ![四叉树优化的群落](assets/boids.gif)
 
+#### [元胞自动机](7.cellular_automation/README.md)
+![wolfram元胞自动机](assets/ca1.gif)
+
+
 ### TODO
 + [ ] 随机二维柏林噪声，生成流场；更好的话是三维，加上时间维度
 

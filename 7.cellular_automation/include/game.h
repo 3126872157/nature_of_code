@@ -18,7 +18,7 @@ public:
     ~Game() = default;
 
     void run();
-    //很傻逼，TODO:思考如何优化
+    //TODO：类与对象，不会用
     sf::Vector2f getWindowSize();
 private:
     void processEvents();

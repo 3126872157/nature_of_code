@@ -24,7 +24,7 @@ CellManager::CellManager(const int size, const sf::RenderWindow& window) {
     clear_flag_ = false;
     rule_num_ = 30;
 
-    if (!font_.openFromFile("/usr/share/fonts/opentype/ipaexfont-mincho/ipaexm.ttf"))
+    if (!font_.openFromFile("C:/Windows/Fonts/arial.ttf"))
     {
         std::cerr << "Failed to open font file" << std::endl;
     }

@@ -2,7 +2,7 @@
 
 int main()
 {
-    Game game("Cellular Automation", 480, 240);
+    Game game("Cellular Automation", 960, 540);
     game.run();
     return 0;
 }

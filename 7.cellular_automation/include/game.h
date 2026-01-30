@@ -10,7 +10,8 @@
 #include "SFML/Graphics.hpp"
 
 //project
-#include "../include/cell_manager.h"
+#include "../include/conway.h"
+#include "../include/wolfram.h"
 
 class Game {
 public:
@@ -28,7 +29,8 @@ private:
 private:
     sf::RenderWindow window_;
     sf::Vector2f window_size_;
-    CellManager* cm_;
+    Wolfram* ca_wolfram_ = nullptr;
+    Conway* ca_conway_;
 };
 
 

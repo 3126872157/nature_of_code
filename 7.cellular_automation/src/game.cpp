@@ -3,19 +3,25 @@
 //
 
 #include "../include/game.h"
-#include "../include/cell_manager.h"
+#include "../include/wolfram.h"
 
 Game::Game(const std::string& title, unsigned int width, unsigned int height)
 {
     //初始窗口
     window_ = sf::RenderWindow(sf::VideoMode({width, height}), title);
-    window_.setFramerateLimit(120);
+    window_.setFramerateLimit(60);
     window_size_ = {static_cast<float>(width), static_cast<float>(height)};
 
     //初始化
-    cm_ = new CellManager(width / SIZE, window_);
-    cm_->init(width / (SIZE * 2) - 1, 1);
-    cm_->draw(window_);
+    // ca_wolfram_ = new Wolfram(width / SIZE, window_);
+    // ca_wolfram_->init(width / (SIZE * 2) - 1, 1);
+    // ca_wolfram_->draw(window_);
+
+    ca_conway_ = new Conway(window_);
+    ca_conway_->init({50,50},1);
+    ca_conway_->init({50,51},1);
+    ca_conway_->init({50,52},1);
+    //ca_conway_->init({51,51},1);
 }
 
 void Game::run()
@@ -44,15 +50,20 @@ void Game::processEvents()
 
 void Game::update(float dt)
 {
-    cm_->update(dt);
+    // ca_wolfram_->update(dt);
+    ca_conway_->update(dt);
 }
 
 void Game::render()
 {
-    //window_.clear();
+    if (!ca_wolfram_)
+    {
+        window_.clear();
+    }
 
     //渲染
-    cm_->draw(window_);
+    // ca_wolfram_->draw(window_);
+    ca_conway_->draw(window_);
 
     window_.display();
 }

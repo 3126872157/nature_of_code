@@ -2,7 +2,7 @@
 // Created by ken on 26-1-29.
 //
 
-#include "../include/cell_manager.h"
+#include "../include/wolfram.h"
 
 #include <iostream>
 #include <random>
@@ -11,39 +11,37 @@
 
 #include "../include/game.h"
 
-
-
-int apply_rule(int a, int b, int c, int rule_number) {
+int Wolfram::applyRule(int a, int b, int c, int rule_number) {
     int i = (a << 2) | (b << 1) | c;
     return (rule_number >> i) & 1;
 }
 
-CellManager::CellManager(const int size, const sf::RenderWindow& window) {
+Wolfram::Wolfram(const int size, const sf::RenderWindow& window) {
     state_ = std::vector<int>(size);
     generation_ = 0;
     clear_flag_ = false;
     rule_num_ = 30;
 
-    if (!font_.openFromFile("C:/Windows/Fonts/arial.ttf"))
+    if (!font_.openFromFile("/usr/share/fonts/opentype/ipaexfont-mincho/ipaexm.ttf"))
     {
         std::cerr << "Failed to open font file" << std::endl;
     }
     window_size_ = window.getSize();
 }
 
-void CellManager::init(const int index, const int state) {
+void Wolfram::init(const int index, const int state) {
     state_[index] = state;
 }
 
-void CellManager::update(float dt) {
+void Wolfram::update(float dt) {
     std::vector<int> new_state(state_.size());
     for (int i = 0; i < state_.size(); i++) {
         if (i == 0) {
-            new_state[i] = apply_rule(0, state_[i], state_[i + 1], rule_num_);
+            new_state[i] = applyRule(0, state_[i], state_[i + 1], rule_num_);
         } else if (i == state_.size() - 1) {
-            new_state[i] = apply_rule(state_[i - 1], state_[i], 0, rule_num_);
+            new_state[i] = applyRule(state_[i - 1], state_[i], 0, rule_num_);
         } else
-            new_state[i] = apply_rule(state_[i - 1], state_[i], state_[i + 1], rule_num_);
+            new_state[i] = applyRule(state_[i - 1], state_[i], state_[i + 1], rule_num_);
     }
     state_ = new_state;
     generation_++;
@@ -64,7 +62,7 @@ void CellManager::update(float dt) {
     }
 }
 
-void CellManager::draw(sf::RenderWindow &window) {
+void Wolfram::draw(sf::RenderWindow &window) {
     sf::RectangleShape cell;
     if (clear_flag_)
     {
@@ -80,7 +78,7 @@ void CellManager::draw(sf::RenderWindow &window) {
     printRule(window);
 }
 
-void CellManager::printRule(sf::RenderWindow& window)
+void Wolfram::printRule(sf::RenderWindow& window) const
 {
     std::string ruleString = "Rule" + std::to_string(rule_num_);
 

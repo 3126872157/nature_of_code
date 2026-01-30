@@ -11,19 +11,22 @@
 
 #define SIZE 2
 
-class CellManager
+class Wolfram
 {
 public:
-    explicit CellManager(const int size, const sf::RenderWindow& window);
-    CellManager(const CellManager& other) = default;
-    CellManager& operator=(const CellManager& other) = default;
-    ~CellManager() = default;
+    explicit Wolfram(const int size, const sf::RenderWindow& window);
+    Wolfram(const Wolfram& other) = default;
+    Wolfram& operator=(const Wolfram& other) = default;
+    ~Wolfram() = default;
 
 public:
     void init(int index, int state);
     void update(float dt);
     void draw(sf::RenderWindow& window);
-    void printRule(sf::RenderWindow& window);
+
+private:
+    int applyRule(int a, int b, int c, int rule_number);
+    void printRule(sf::RenderWindow& window) const;
 
 private:
     int generation_;

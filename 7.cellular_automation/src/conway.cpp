@@ -3,14 +3,21 @@
 //
 
 #include "../include/conway.h"
+#include <random> // 引入随机数库
 
 sf::Vector2i Conway::wrap(const sf::Vector2i in) const
 {
     sf::Vector2i out = in;
-    if (in.x < 0) out.x = window_size_.x - 1;
-    if (in.x >= window_size_.x) out.x = 0;
-    if (in.y < 0) out.y = window_size_.y - 1;
-    if (in.y >= window_size_.y) out.y = 0;
+    // 使用 grid_size_ (网格数量) 而不是 window_size_ (像素)
+    int w = static_cast<int>(grid_size_.x);
+    int h = static_cast<int>(grid_size_.y);
+
+    if (in.x < 0) out.x = w - 1;
+    else if (in.x >= w) out.x = 0;
+
+    if (in.y < 0) out.y = h - 1;
+    else if (in.y >= h) out.y = 0;
+
     return out;
 }
 
@@ -28,47 +35,70 @@ void Conway::applyRule(const int x, const int y)
         }
     }
 
-    // if (state_[t.y][t.x] == 1) {
-    //     new_state_[t.y][t.x] = (alive_sum == 2 || alive_sum == 3) ? 1 : 0;
-    // } else {
-    //     new_state_[t.y][t.x] = (alive_sum == 3) ? 1 : 0;
-    // }
-
-    if (alive_sum >= 4 || alive_sum <= 1)
-    {
-        new_state_[y][x] = 0;
-    }
-    if (alive_sum == 3)
-    {
-        new_state_[y][x] = 1;
+    if (state_[y][x] == 1) {
+        new_state_[y][x] = (alive_sum == 2 || alive_sum == 3) ? 1 : 0;
+    } else {
+        new_state_[y][x] = (alive_sum == 3) ? 1 : 0;
     }
 }
 
 
 Conway::Conway(const sf::RenderWindow& window)
 {
-    state_.assign(window.getSize().y, std::vector<int>(window.getSize().y, 0));
-    new_state_.assign(window.getSize().y, std::vector<int>(window.getSize().y, 0));
+    auto win_size = window.getSize();
+    // 计算网格数量
+    grid_size_.x = win_size.x / SIZE;
+    grid_size_.y = win_size.y / SIZE;
+
+    // 初始化状态向量
+    state_.assign(grid_size_.y, std::vector<int>(grid_size_.x, 0));
+    new_state_.assign(grid_size_.y, std::vector<int>(grid_size_.x, 0));
+
     generation_ = 0;
     clear_flag_ = false;
-    window_size_ = window.getSize();
+
+    // 初始化 VertexArray (SFML 3.0 使用 Triangles)
+    vertices_.setPrimitiveType(sf::PrimitiveType::Triangles);
+
 }
 
 void Conway::init(sf::Vector2i pos, int state)
 {
-    state_[pos.y][pos.x] = state;
-    new_state_[pos.y][pos.x] = state;
+    // 简单的边界检查防止崩溃
+    if (pos.x >= 0 && pos.x < grid_size_.x && pos.y >= 0 && pos.y < grid_size_.y) {
+        state_[pos.y][pos.x] = state;
+        new_state_[pos.y][pos.x] = state;
+    }
 }
 
 void Conway::randomInit()
 {
+    // 1. 随机数引擎 (Engine)
+    // std::random_device 用于获取一个非确定性的随机种子（通常来自硬件熵）
+    std::random_device rd;
+    // std::mt19937 是梅森旋转算法 (Mersenne Twister)，是目前最常用的高质量伪随机数生成器
+    std::mt19937 gen(rd());
+
+    // 2. 分布 (Distribution)
+    // 我们想要一个 0 到 100 之间的均匀整数分布
+    std::uniform_int_distribution<> dis(0, 100);
+
+    for (int y = 0; y < grid_size_.y; ++y) {
+        for (int x = 0; x < grid_size_.x; ++x) {
+            // 3. 生成随机数
+            // 调用 dis(gen) 会使用 gen 引擎生成一个符合 dis 分布的随机数
+            if (dis(gen) < 20) { // 20% 概率存活
+                init({x, y}, 1);
+            }
+        }
+    }
 }
 
 void Conway::update(float dt)
 {
-    for (int j = 0; j < state_.size(); j++)
+    for (int j = 0; j < grid_size_.y; j++)
     {
-        for (int i = 0; i < state_[j].size(); i++)
+        for (int i = 0; i < grid_size_.x; i++)
         {
             applyRule(i, j);
         }
@@ -78,18 +108,41 @@ void Conway::update(float dt)
 
 void Conway::draw(sf::RenderWindow& window)
 {
-    sf::RectangleShape rect;
-    for (int j = 0; j < state_.size(); j++)
+    vertices_.clear();
+
+    for (int j = 0; j < grid_size_.y; j++)
     {
-        for (int i = 0; i < state_[j].size(); i++)
+        for (int i = 0; i < grid_size_.x; i++)
         {
             if (state_[j][i] == 1)
             {
-                rect.setFillColor(sf::Color::White);
-                rect.setSize(sf::Vector2f(SIZE, SIZE));
-                rect.setPosition(sf::Vector2f(i * SIZE, j * SIZE));
-                window.draw(rect);
+                float x = static_cast<float>(i * SIZE);
+                float y = static_cast<float>(j * SIZE);
+
+                // 构造两个三角形组成一个矩形
+                // p1 --- p2
+                // |       |
+                // p4 --- p3
+
+                sf::Vector2f p1(x, y);
+                sf::Vector2f p2(x + SIZE, y);
+                sf::Vector2f p3(x + SIZE, y + SIZE);
+                sf::Vector2f p4(x, y + SIZE);
+
+                sf::Color color = sf::Color::White;
+
+                // Triangle 1
+                vertices_.append(sf::Vertex{p1, color});
+                vertices_.append(sf::Vertex{p2, color});
+                vertices_.append(sf::Vertex{p3, color});
+
+                // Triangle 2
+                vertices_.append(sf::Vertex{p3, color});
+                vertices_.append(sf::Vertex{p4, color});
+                vertices_.append(sf::Vertex{p1, color});
             }
         }
     }
+
+    window.draw(vertices_);
 }

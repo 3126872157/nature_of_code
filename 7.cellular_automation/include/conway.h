@@ -5,6 +5,7 @@
 #ifndef CONWAY_H
 #define CONWAY_H
 
+#include <random>
 #include <vector>
 
 #include "SFML/Graphics.hpp"
@@ -34,7 +35,9 @@ private:
     std::vector<std::vector<int>> state_;
     std::vector<std::vector<int>> new_state_;
     bool clear_flag_;
-    sf::Vector2u window_size_;
+
+    sf::Vector2u grid_size_; // 网格的宽和高（单位：个）
+    sf::VertexArray vertices_; // 用于批量渲染
 };
 
 

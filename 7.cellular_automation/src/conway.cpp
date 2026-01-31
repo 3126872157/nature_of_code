@@ -30,15 +30,18 @@ void Conway::applyRule(const int x, const int y)
         for (int j = -1; j <= 1; j++)
         {
             if (i == 0 && j == 0) continue;
-            sf::Vector2i t = wrap({x+i, y+j});
+            sf::Vector2i t = wrap({x + i, y + j});
             alive_sum += state_[t.y][t.x];
         }
     }
 
     // 双缓冲，所以这里是无遗漏的覆盖式更新
-    if (state_[y][x] == 1) {
+    if (state_[y][x] == 1)
+    {
         new_state_[y][x] = (alive_sum == 2 || alive_sum == 3) ? 1 : 0;
-    } else {
+    }
+    else
+    {
         new_state_[y][x] = (alive_sum == 3) ? 1 : 0;
     }
 }
@@ -46,29 +49,111 @@ void Conway::applyRule(const int x, const int y)
 Conway::Conway(const sf::RenderWindow& window)
 {
     auto win_size = window.getSize();
-    // 计算网格数量
     grid_size_.x = win_size.x / SIZE;
     grid_size_.y = win_size.y / SIZE;
 
-    // 初始化状态向量
     state_.assign(grid_size_.y, std::vector<int>(grid_size_.x, 0));
     new_state_.assign(grid_size_.y, std::vector<int>(grid_size_.x, 0));
 
     generation_ = 0;
     clear_flag_ = false;
-    run_flag_ = false;
+    run_flag_ = false; // 初始设为 false 方便查看文字
 
-    // 初始化 VertexArray (SFML 3.0 使用 Triangles)
+    initDrawUI();
+
     vertices_.setPrimitiveType(sf::PrimitiveType::Triangles);
 }
 
 void Conway::write(sf::Vector2i pos, int state)
 {
     // 简单的边界检查防止崩溃
-    if (pos.x >= 0 && pos.x < grid_size_.x && pos.y >= 0 && pos.y < grid_size_.y) {
+    if (pos.x >= 0 && pos.x < grid_size_.x && pos.y >= 0 && pos.y < grid_size_.y)
+    {
         state_[pos.y][pos.x] = state;
         new_state_[pos.y][pos.x] = state;
     }
+}
+
+// 我们定义一个 Lambda 函数来方便绘制字符
+void Conway::drawChar(int startX, int startY, const std::vector<std::string>& mask)
+{
+    for (int row = 0; row < mask.size(); ++row)
+    {
+        for (int col = 0; col < mask[row].size(); ++col)
+        {
+            if (mask[row][col] == '#')
+            {
+                write({startX + col, startY + row}, 1);
+            }
+        }
+    }
+}
+
+void Conway::initDrawUI()
+{
+
+    int offset_x = 3;
+    int offset_y = 3;
+    int ch_y = 7;
+
+    // MOUSE: DRAW
+    drawChar(offset_x, offset_y + ch_y * 0, {
+                 "#   #  ##  #  # ### ####     ###  ###   ##  #   #",
+                 "## ## #  # #  # #   #        #  # #  # #  # #   #",
+                 "# # # #  # #  # ### ###   #  #  # ###  #### # # #",
+                 "#   # #  # #  #   # #        #  # #  # #  # # # #",
+                 "#   #  ##   ##  ### ####  #  ###  #  # #  #  # # "
+             });
+
+    // KEY-C: CLEAR
+    drawChar(offset_x, offset_y + ch_y * 1, {
+                 "#  # ### #   #       ###      ### #    ####  ##  ### ",
+                 "# #  #    # #       #        #    #    #    #  # #  #",
+                 "##   ###   #        #     #  #    #    ###  #### ### ",
+                 "# #  #     #        #        #    #    #    #  # #  #",
+                 "#  # ###   #         ###  #   ### #### #### #  # #  #"
+             });
+
+    drawChar(offset_x, offset_y + ch_y * 3, {
+                 "#### ###   ##   ### ####     ###  #  # #  #    #  #### #####  ##  ### ",
+                 "#    #  # #  # #    #        #  # #  # ## #    #  #      #   #  # #  #",
+                 "#### ###  #### #    ###   #  ###  #  # ## #   #   ####   #   #  # ### ",
+                 "   # #    #  # #    #        #  # #  # # ##  #       #   #   #  # #   ",
+                 "#### #    #  #  ### ####  #  #  #  ##  #  #  #    ####   #    ##  #   "
+             });
+
+    drawChar(offset_x, offset_y + ch_y * 2, {
+                 "#  # ### #   #      ###      ###   ##  #  # ###   ##  #   #",
+                 "# #  #    # #       #  #     #  # #  # ## # #  # #  # ## ##",
+                 "##   ###   #        ###   #  ###  #### ## # #  # #  # # # #",
+                 "# #  #     #        #  #     #  # #  # # ## #  # #  # #   #",
+                 "#  # ###   #        #  #  #  #  # #  # #  # ###   ##  #   #"
+             });
+
+    drawChar(offset_x, offset_y + ch_y * 4, {
+                 "               #  # ###      ####  ##  #### #####",
+                 "               #  # #  #     #    #  # #      #  ",
+                 "               #  # ###   #  #### #### ####   #  ",
+                 "               #  # #        #    #  #    #   #  ",
+                 "                ##  #     #  #    #  # ####   #  "
+             });
+
+    drawChar(offset_x, offset_y + ch_y * 5, {
+                 "    ###   ##  #   # #  #     #### #     ##  #   #",
+                 "    #  # #  # #   # ## #     #    #    #  # #   #",
+                 "    #  # #  # # # # ## #  #  #### #    #  # # # #",
+                 "    #  # #  # # # # # ##        # #    #  # ## ##",
+                 "    ###   ##   # #  #  #  #  #### ####  ##   # # "
+             });
+
+    // 绘制 "BY:Liangjun"
+    drawChar(offset_x + 60, offset_y + ch_y * 8, {
+                 "               ###  #   #    #   ###  ##  #  #  ###  ### #  # #  #",
+                 "               #  #  # #     #    #  #  # ## # #      #  #  # ## #",
+                 "               ###    #   #  #    #  #### ## # # ##   #  #  # ## #",
+                 "               #  #   #      #    #  #  # # ## #  #   #  #  # # ##",
+                 "               ###    #   #  ### ### #  # #  #  ###  ##   ##  #  #"
+             });
 }
 
 void Conway::randomInit()
@@ -83,11 +168,15 @@ void Conway::randomInit()
     // 我们想要一个 0 到 100 之间的均匀整数分布
     std::uniform_int_distribution<> dis(0, 100);
 
-    for (int y = 0; y < grid_size_.y; ++y) {
-        for (int x = 0; x < grid_size_.x; ++x) {
+    for (int y = 0; y < grid_size_.y; ++y)
+    {
+        for (int x = 0; x < grid_size_.x; ++x)
+        {
             // 3. 生成随机数
             // 调用 dis(gen) 会使用 gen 引擎生成一个符合 dis 分布的随机数
-            if (dis(gen) < 20) { // 20% 概率存活
+            if (dis(gen) < 20)
+            {
+                // 20% 概率存活
                 write({x, y}, 1);
             }
         }
@@ -99,7 +188,7 @@ void Conway::update(float dt)
     if (clear_flag_)
         clear();
 
-    if (run_flag_)
+    if (!run_flag_)
         return;
 
     // 控制帧率
@@ -212,4 +301,3 @@ void Conway::changeFrameRate(bool is_up)
         t_max = std::min(1.0f, t_max + 0.1f);
     }
 }
-

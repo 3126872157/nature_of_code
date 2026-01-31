@@ -18,12 +18,12 @@ Game::Game(const std::string& title, unsigned int width, unsigned int height)
     // ca_wolfram_->draw(window_);
 
     ca_conway_ = new Conway(window_);
-    ca_conway_->write({50,50},1);
-    ca_conway_->write({50,51},1);
-    ca_conway_->write({50,52},1);
-    ca_conway_->write({48,50},1);
-    ca_conway_->write({49,52},1);
-    ca_conway_->randomInit();
+    // ca_conway_->write({50,50},1);
+    // ca_conway_->write({50,51},1);
+    // ca_conway_->write({50,52},1);
+    // ca_conway_->write({48,50},1);
+    // ca_conway_->write({49,52},1);
+    // ca_conway_->randomInit();
 }
 
 void Game::run()

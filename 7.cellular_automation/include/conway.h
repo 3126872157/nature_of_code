@@ -22,6 +22,7 @@ public:
 
 public:
     void write(sf::Vector2i pos, int state);
+    void drawChar(int startX, int startY, const std::vector<std::string>& mask);
     void randomInit();
     void update(float dt);
     void render(sf::RenderWindow& window);
@@ -35,6 +36,7 @@ private:
     void applyRule(int x, int y);
     sf::Vector2i wrap(sf::Vector2i in) const;
     void clear();
+    void initDrawUI();
 
 private:
     int generation_;

@@ -35,13 +35,13 @@ void Conway::applyRule(const int x, const int y)
         }
     }
 
+    // 双缓冲，所以这里是无遗漏的覆盖式更新
     if (state_[y][x] == 1) {
         new_state_[y][x] = (alive_sum == 2 || alive_sum == 3) ? 1 : 0;
     } else {
         new_state_[y][x] = (alive_sum == 3) ? 1 : 0;
     }
 }
-
 
 Conway::Conway(const sf::RenderWindow& window)
 {
@@ -56,13 +56,13 @@ Conway::Conway(const sf::RenderWindow& window)
 
     generation_ = 0;
     clear_flag_ = false;
+    run_flag_ = false;
 
     // 初始化 VertexArray (SFML 3.0 使用 Triangles)
     vertices_.setPrimitiveType(sf::PrimitiveType::Triangles);
-
 }
 
-void Conway::init(sf::Vector2i pos, int state)
+void Conway::write(sf::Vector2i pos, int state)
 {
     // 简单的边界检查防止崩溃
     if (pos.x >= 0 && pos.x < grid_size_.x && pos.y >= 0 && pos.y < grid_size_.y) {
@@ -88,7 +88,7 @@ void Conway::randomInit()
             // 3. 生成随机数
             // 调用 dis(gen) 会使用 gen 引擎生成一个符合 dis 分布的随机数
             if (dis(gen) < 20) { // 20% 概率存活
-                init({x, y}, 1);
+                write({x, y}, 1);
             }
         }
     }
@@ -96,6 +96,21 @@ void Conway::randomInit()
 
 void Conway::update(float dt)
 {
+    if (clear_flag_)
+        clear();
+
+    if (run_flag_)
+        return;
+
+    // 控制帧率
+    static float time = 0;
+    time += dt;
+    if (time <= t_max)
+    {
+        return;
+    }
+    time = 0;
+
     for (int j = 0; j < grid_size_.y; j++)
     {
         for (int i = 0; i < grid_size_.x; i++)
@@ -106,8 +121,13 @@ void Conway::update(float dt)
     state_.swap(new_state_);
 }
 
-void Conway::draw(sf::RenderWindow& window)
+void Conway::render(sf::RenderWindow& window)
 {
+    if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left))
+    {
+        draw(sf::Mouse::getPosition(window));
+    }
+
     vertices_.clear();
 
     for (int j = 0; j < grid_size_.y; j++)
@@ -146,3 +166,50 @@ void Conway::draw(sf::RenderWindow& window)
 
     window.draw(vertices_);
 }
+
+void Conway::setClearFlag()
+{
+    clear_flag_ = true;
+}
+
+void Conway::clear()
+{
+    for (int i = 0; i < state_.size(); i++)
+    {
+        std::fill(state_[i].begin(), state_[i].end(), 0);
+        std::fill(new_state_[i].begin(), new_state_[i].end(), 0);
+    }
+    clear_flag_ = false;
+}
+
+void Conway::toggleRunFlag()
+{
+    run_flag_ = !run_flag_;
+}
+
+void Conway::draw(sf::Vector2i mouse_pos)
+{
+    static sf::Vector2i last_pos = {0, 0};
+    sf::Vector2i pos = {mouse_pos.x / SIZE, mouse_pos.y / SIZE};
+
+    if (pos == last_pos)
+        return;
+
+    //翻转细胞状态
+    state_[pos.y][pos.x] = state_[pos.y][pos.x] == 1 ? 0 : 1;
+
+    last_pos = pos;
+}
+
+void Conway::changeFrameRate(bool is_up)
+{
+    if (is_up)
+    {
+        t_max = std::max(0.0167f, t_max - 0.1f);
+    }
+    else
+    {
+        t_max = std::min(1.0f, t_max + 0.1f);
+    }
+}
+

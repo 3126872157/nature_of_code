@@ -18,11 +18,11 @@ Game::Game(const std::string& title, unsigned int width, unsigned int height)
     // ca_wolfram_->draw(window_);
 
     ca_conway_ = new Conway(window_);
-    // ca_conway_->init({50,50},1);
-    // ca_conway_->init({50,51},1);
-    // ca_conway_->init({50,52},1);
-    // ca_conway_->init({48,50},1);
-    // ca_conway_->init({49,52},1);
+    ca_conway_->write({50,50},1);
+    ca_conway_->write({50,51},1);
+    ca_conway_->write({50,52},1);
+    ca_conway_->write({48,50},1);
+    ca_conway_->write({49,52},1);
     ca_conway_->randomInit();
 }
 
@@ -47,6 +47,29 @@ void Game::processEvents()
             window_.close();
         }
         //输入
+        if (auto* key = event->getIf<sf::Event::KeyPressed>())
+        {
+            if (key->code == sf::Keyboard::Key::C)
+            {
+                ca_conway_->setClearFlag();
+            }
+            if (key->code == sf::Keyboard::Key::Space)
+            {
+                ca_conway_->toggleRunFlag();
+            }
+            if (key->code == sf::Keyboard::Key::R)
+            {
+                ca_conway_->randomInit();
+            }
+            if (key->code == sf::Keyboard::Key::Up)
+            {
+                ca_conway_->changeFrameRate(true);
+            }
+            if (key->code == sf::Keyboard::Key::Down)
+            {
+                ca_conway_->changeFrameRate(false);
+            }
+        }
     }
 }
 
@@ -65,7 +88,7 @@ void Game::render()
 
     //渲染
     // ca_wolfram_->draw(window_);
-    ca_conway_->draw(window_);
+    ca_conway_->render(window_);
 
     window_.display();
 }

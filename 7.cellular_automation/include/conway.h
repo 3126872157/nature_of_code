@@ -21,23 +21,34 @@ public:
     ~Conway() = default;
 
 public:
-    void init(sf::Vector2i pos, int state);
+    void write(sf::Vector2i pos, int state);
     void randomInit();
     void update(float dt);
-    void draw(sf::RenderWindow& window);
+    void render(sf::RenderWindow& window);
+
+    void setClearFlag();
+    void toggleRunFlag();
+    void draw(sf::Vector2i mouse_pos);
+    void changeFrameRate(bool is_up);
 
 private:
     void applyRule(int x, int y);
     sf::Vector2i wrap(sf::Vector2i in) const;
+    void clear();
 
 private:
     int generation_;
     std::vector<std::vector<int>> state_;
     std::vector<std::vector<int>> new_state_;
-    bool clear_flag_;
 
     sf::Vector2u grid_size_; // 网格的宽和高（单位：个）
     sf::VertexArray vertices_; // 用于批量渲染
+
+    float t_max = 0.0167;
+
+    // ui
+    bool clear_flag_;
+    bool run_flag_;
 };
 
 

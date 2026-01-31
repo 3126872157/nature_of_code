@@ -20,6 +20,11 @@ if(MINGW)
     target_link_options(${PROJECT_NAME}_main PRIVATE -static)
 endif()
 
+# 需要22.04以上的系统才行
+if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+    target_link_options(${PROJECT_NAME}_main PRIVATE -static-libstdc++ -static-libgcc)
+endif()
+
 # 如果是静态链接，SFML 需要定义 SFML_STATIC 宏
 if(SFML_STATIC_LIBRARIES)
     target_compile_definitions(${PROJECT_NAME}_main PRIVATE SFML_STATIC)

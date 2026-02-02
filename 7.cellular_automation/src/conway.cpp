@@ -147,7 +147,7 @@ void Conway::initDrawUI()
              });
 
     // 绘制 "BY:Liangjun"
-    drawChar(offset_x + 60, offset_y + ch_y * 8, {
+    drawChar(offset_x + 55, offset_y + ch_y * 8, {
                  "               ###  #   #    #   ###  ##  #  #  ###  ### #  # #  #",
                  "               #  #  # #     #    #  #  # ## # #      #  #  # ## #",
                  "               ###    #   #  #    #  #### ## # # ##   #  #  # ## #",
